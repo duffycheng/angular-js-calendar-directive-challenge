@@ -1,0 +1,47 @@
+.calendar{
+	width:840px;
+	zoom:1;
+	border: 1px solid #000;
+	margin-top:10px;
+}
+.calendar:after {
+     visibility: hidden;
+     overflow: hidden;
+     display: block;
+     font-size: 0;     
+     content: " ";
+     clear: both;     
+     height: 0;     
+ }
+.day{
+	box-sizing: border-box;
+	width: 120px;
+	height: 120px;
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	float:left;
+	position: relative;
+}
+.day:nth-child(7n+1){
+	border-left:none;
+}
+.day.lastMonth, .day.nextMonth{
+	background-color: #DEDEDE;
+}
+.day.header{
+	text-align: center;
+	height:30px;
+	font-weight: bold;
+	line-height: 30px;
+	background-color: #000;
+	color:#FFF;
+	border-top: none;
+}
+.day span{
+	position:absolute;
+	top:5px;
+	left:5px;
+}
+
+
+ 
