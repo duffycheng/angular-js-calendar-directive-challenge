@@ -1,8 +1,8 @@
 var calendarApp = angular.module('calendarDemoApp', []);
-calendarApp.directive('monthSelector', function(){
+calendarApp.directive('calendar', function(){
 	return {
 		restrict: 'E', 
-		templateUrl: './template/selector.html',
+		templateUrl: 'calendar.html',
 		link: function(scope, element, attrs) {
 			var startYear = attrs['startYear'], endYear = attrs['endYear'],yearArr=[];
 
@@ -13,26 +13,26 @@ calendarApp.directive('monthSelector', function(){
 			scope.years = yearArr;
 
 		},
-		controller: function($scope, $element, $attrs) {
+		controller: function controller($scope, $element, $attrs) {
 			var date = new Date(), nowMonth = date.getMonth(), nowYear = date.getFullYear();
 
 			//select exist time 
 			$scope.selectedMonth = nowMonth;
 			$scope.selectedYear = nowYear;
 			
+			$scope.getCalendar = function(year, month){
+				$scope.range = CalendarRange.getMonthlyRange(new Date(year, month));
+				$scope.range.days.forEach(addMonthClass);
+			}
+
 			//display calendar				
-			getCalendar(nowYear,nowMonth);
+			$scope.getCalendar(nowYear,nowMonth);
 
 			//update from drop down
 			$scope.updateCalendar = function(){
 				nowMonth = $scope.selectedMonth;
-				getCalendar($scope.selectedYear, $scope.selectedMonth);
+				$scope.getCalendar($scope.selectedYear, $scope.selectedMonth);
 			};
-
-			function getCalendar(year, month){
-				$scope.range = CalendarRange.getMonthlyRange(new Date(year, month));
-				$scope.range.days.forEach(addMonthClass);
-			}
 
 			//run through days array and add the special classes to last and next months
 			//nowMonth is the month now in the beginning, or the selected month when it is selected from the select box.

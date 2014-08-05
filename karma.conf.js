@@ -1,6 +1,3 @@
-// Karma configuration
-// Generated on Tue Aug 05 2014 15:23:04 GMT+0800 (CST)
-
 module.exports = function(config) {
   config.set({
 
@@ -15,17 +12,28 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'node_modules/jquery/dist/jquery.min.js',
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/utilities/calendar-range/calendarRange.js',
+      'app/app.js',
+      'app/appSpec.js',
+      'app/index.html',
+      'app/calendar.html'
     ],
 
 
     // list of files to exclude
     exclude: [
+      
     ],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+        'app/*.html': 'html2js'
+    
     },
 
     ngHtml2JsPreprocessor: {
