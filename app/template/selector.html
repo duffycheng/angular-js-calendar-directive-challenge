@@ -1,0 +1,29 @@
+<select name="month" id="month">
+	<option value="0" class="0">January</option>
+	<option value="1" class="1">February</option>
+	<option value="2" class="2">March</option>
+	<option value="3" class="3">April</option>
+	<option value="4" class="4">May</option>
+	<option value="5" class="5">June</option>
+	<option value="6" class="6">July</option>
+	<option value="7" class="7">August</option>
+	<option value="8" class="8">September</option>
+	<option value="9" class="9">October</option>
+	<option value="10" class="10">November</option>
+	<option value="11" class="11">December</option>
+</select>
+<select name="year" id="year">
+</select>
+<div class="calendar clearfix" >
+	<div class="day header">Sunday</div>
+	<div class="day header">Monday</div>
+	<div class="day header">Tuesday</div>
+	<div class="day header">Wednesday</div>
+	<div class="day header">Thursday</div>
+	<div class="day header">Friday</div>
+	<div class="day header">Saturday</div>
+	<div class="day {{day.monthClass}}" ng-repeat="day in range.days" >
+		<span>{{day.day}}</span>
+	</div>
+</div>
+<!-- <calendar-display></calendar-display> -->
