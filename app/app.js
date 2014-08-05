@@ -4,38 +4,38 @@ calendarApp.directive('monthSelector', function(){
 		restrict: 'E', 
 		templateUrl: './template/selector.html',
 		link: function(scope, element, attrs) {
-			var startYear = attrs['startYear'], endYear = attrs['endYear'],yearArr=[],
-			    date = new Date(), nowMonth = date.getMonth(), nowYear = date.getFullYear();
+			var startYear = attrs['startYear'], endYear = attrs['endYear'],yearArr=[];
 
-			init();
+			//populate the year select box
+			for(var i=startYear; i <= endYear; i++){
+				yearArr.push(i);
+			}
+			scope.years = yearArr;
+
+		},
+		controller: function($scope, $element, $attrs) {
+			var date = new Date(), nowMonth = date.getMonth(), nowYear = date.getFullYear();
+
+			//select exist time 
+			$scope.selectedMonth = nowMonth;
+			$scope.selectedYear = nowYear;
 			
-			scope.updateCalendar = function(){
-				nowMonth = scope.selectedMonth;
-				getCalendar(scope.selectedYear, scope.selectedMonth);
+			//display calendar				
+			getCalendar(nowYear,nowMonth);
+
+			//update from drop down
+			$scope.updateCalendar = function(){
+				nowMonth = $scope.selectedMonth;
+				getCalendar($scope.selectedYear, $scope.selectedMonth);
 			};
 
-			function init(){
-				//populate the year select box
-				for(var i=startYear; i <= endYear; i++){
-					yearArr.push(i);
-				}
-				scope.years = yearArr;
-				
-				//select exist time 
-				scope.selectedMonth = nowMonth;
-				scope.selectedYear = nowYear;
-				
-				//display calendar				
-				getCalendar(nowYear,nowMonth);
-			}
-
 			function getCalendar(year, month){
-				scope.range = CalendarRange.getMonthlyRange(new Date(year, month));
-				scope.range.days.forEach(addMonthClass);
+				$scope.range = CalendarRange.getMonthlyRange(new Date(year, month));
+				$scope.range.days.forEach(addMonthClass);
 			}
 
-			//run through days array and add the class to last and next month
-			////nowMonth is the month now in the beginning, or the selected month when it is selected from the dropdown list.
+			//run through days array and add the special classes to last and next months
+			//nowMonth is the month now in the beginning, or the selected month when it is selected from the select box.
 			function addMonthClass(element, index, array){
 				if(element.month < nowMonth){
 					element.monthClass = 'lastMonth';
@@ -43,10 +43,6 @@ calendarApp.directive('monthSelector', function(){
 					element.monthClass = 'nextMonth';
 				}
 			}
-
-		},
-		controller: function($scope, $element, $attrs) {
-			
 		}
 	};
 });
