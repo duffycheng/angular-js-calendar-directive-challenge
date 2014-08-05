@@ -4,32 +4,38 @@ calendarApp.directive('monthSelector', function(){
 		restrict: 'E', 
 		templateUrl: './template/selector.html',
 		link: function(scope, element, attrs) {
-			var startYear = attrs['startYear'], endYear = attrs['endYear'],optionString="",
+			var startYear = attrs['startYear'], endYear = attrs['endYear'],yearArr=[],
 			    date = new Date(), nowMonth = date.getMonth(), nowYear = date.getFullYear();
 
 			init();
-			getCalendar();
-
+			
+			scope.updateCalendar = function(){
+				nowMonth = scope.selectedMonth;
+				getCalendar(scope.selectedYear, scope.selectedMonth);
+			};
 
 			function init(){
 				//populate the year select box
 				for(var i=startYear; i <= endYear; i++){
-					optionString+="<option value='" + i + "' class='" + i + "''>" + i + "</option>"; 
+					yearArr.push(i);
 				}
-				$("#year").html(optionString);
+				scope.years = yearArr;
 				
 				//select exist time 
-				$("#month ."+nowMonth).attr("selected","selected");
-				$("#year ."+nowYear).attr("selected","selected");
-
+				scope.selectedMonth = nowMonth;
+				scope.selectedYear = nowYear;
+				
+				//display calendar				
+				getCalendar(nowYear,nowMonth);
 			}
 
-			function getCalendar(){
-				scope.range = CalendarRange.getMonthlyRange(new Date(nowYear, nowMonth));
+			function getCalendar(year, month){
+				scope.range = CalendarRange.getMonthlyRange(new Date(year, month));
 				scope.range.days.forEach(addMonthClass);
 			}
 
 			//run through days array and add the class to last and next month
+			////nowMonth is the month now in the beginning, or the selected month when it is selected from the dropdown list.
 			function addMonthClass(element, index, array){
 				if(element.month < nowMonth){
 					element.monthClass = 'lastMonth';
@@ -38,29 +44,9 @@ calendarApp.directive('monthSelector', function(){
 				}
 			}
 
-
 		},
-		controller: function($scope, $element, $attrs, $transclude) {
-			var selectedMonth, selectedYear;
-			$($element.find('select')[0]).on('change',function(e){
-				selectedMonth = $(this).val();
-			});
-			$($element.find('select')[1]).on('change',function(e){
-				selectedYear = $(this).val();
-			});
-
+		controller: function($scope, $element, $attrs) {
 			
-
-			// console.log(selectedMonth);
-			// console.log(selectedYear);
-
-			// //expose
-			// $scope.getSelection = function(){
-			// 	return {
-			// 		month: selectedMonth,
-			// 		year: selectedYear
-			// 	};
-			// };
 		}
 	};
 });
